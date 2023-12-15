@@ -850,7 +850,7 @@ class SJF{
 
     }
 }
- class Main_sawy {
+class Main_sawy {
     public static ArrayList<Process> srtf(){
         ArrayList<Process> proc = new ArrayList<>();
         Scanner input = new Scanner(System.in);
