@@ -349,37 +349,36 @@ class priorityScheduling {
         String pName ,pColor  ;
         int pAt, pBt ,pPn ;
         priorityScheduling app = new priorityScheduling();
-//        for (int i = 0; i < pNum; i++) {
-//            System.out.print(i+1+" Process Name => ");
-//            pName = scanner.nextLine();
-//            System.out.print(i+1+" Process Color => ");
-//            pColor = scanner.nextLine();
-//            System.out.print(i+1+" Process Burst Time => ");
-//            pBt = scanner.nextInt();
-//            System.out.print(i+1+" Process Priority Number => ");
-//            pPn = scanner.nextInt();
-//            System.out.print(i+1+" Process Arrival Time => ");
-//            pAt = scanner.nextInt();
-//            scanner.nextLine(); // Consume the newline character
-//            Processj = new process(pName,pAt,pBt,pPn,getColorByName(pColor)) ;
-//            app.processes.add(j);
-//            System.out.println();
-//            System.out.println();
-//            System.out.println();
-//        }
-        app.processes.add(new Process("process1",0,15,1,Color.black));
-        app.processes.add(new Process("process2",1,1,6,Color.RED));
-        app.processes.add(new Process("process3",14,2,1,Color.BLUE));
-        app.processes.add(new Process("process4",14,2,2,Color.CYAN));
-        app.processes.add(new Process("process5",14,2,3,Color.YELLOW));
-        app.processes.add(new Process("process6",14,2,4,Color.pink));
-        app.processes.add(new Process("process7",14,2,5,Color.ORANGE));
+        for (int i = 0; i < pNum; i++) {
+            System.out.print(i+1+" Process Name => ");
+            pName = scanner.nextLine();
+            System.out.print(i+1+" Process Color => ");
+            pColor = scanner.nextLine();
+            System.out.print(i+1+" Process Burst Time => ");
+            pBt = scanner.nextInt();
+            System.out.print(i+1+" Process Priority Number => ");
+            pPn = scanner.nextInt();
+            System.out.print(i+1+" Process Arrival Time => ");
+            pAt = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+            Process j = new Process(pName,pAt,pBt,pPn,getColorByName(pColor)) ;
+            app.processes.add(j);
+            System.out.println();
+            System.out.println();
+            System.out.println();
+        }
+        // TEST CASES
+//        app.processes.add(new Process("process1",0,15,1,Color.black));
+//        app.processes.add(new Process("process2",1,1,6,Color.RED));
+//        app.processes.add(new Process("process3",14,2,1,Color.BLUE));
+//        app.processes.add(new Process("process4",14,2,2,Color.CYAN));
+//        app.processes.add(new Process("process5",14,2,3,Color.YELLOW));
+//        app.processes.add(new Process("process6",14,2,4,Color.pink));
+//        app.processes.add(new Process("process7",14,2,5,Color.ORANGE));
 
 
         app.kernel();
         return app.die ;
-//        GUI gui = new GUI();
-//        gui.Build(app.die);
     }
 
 }
@@ -568,10 +567,9 @@ class AG {
             System.out.println("Enter the burstTime");
             int burstTime = input.nextInt();
             System.out.println("Enter the priority number");
-            int priorityNumber = 0;
-//            priorityNumber = input.nextInt();
-//            System.out.println("Enter the Random number");
-            int random = input.nextInt();
+            int random = 0;
+            int priorityNumber = input.nextInt();
+
             p.add(new Process(name,priorityScheduling.getColorByName(color),priorityNumber,arrivalTime,burstTime,roundRobin,random));
         }
         AGScheduler AG = new AGScheduler(p);
@@ -916,7 +914,6 @@ public class Main{
     public static void main(String[] args){
             Scanner scanner = new Scanner(System.in);
             String choice = "";
-      while (true) {
           System.out.println("Enter Algorithm Number");
           System.out.println("1- SJF");
           System.out.println("2- SRTF");
@@ -937,7 +934,7 @@ public class Main{
               System.out.println("Not Found");
           }
 
-      }
+
     }
 }
 
@@ -949,16 +946,40 @@ class  GUI {
        f.setLocationRelativeTo(null);
        f.setVisible(true);
        f.setSize(1200,800);
-       f.setLayout(new GridLayout(1,1));
+       f.setLayout(new GridLayout(1,1,20,0));
 
-       JPanel p = new JPanel(new GridLayout(data.size(),1,0,0));
-       p.setSize(new Dimension(2000,f.getHeight()));
+       JPanel left = new JPanel(new GridLayout(data.size(),1,0,0));
+        left.setSize(new Dimension(2000,f.getHeight()));
         for (int i = 0; i < data.size(); i++) {
             pane p1 = new pane(data.get(i));
-            p.add(p1);
+            left.add(p1);
         }
-        f.add(p);
-        f.add(new JLabel("PROCESS"));
+        f.add(left);
+
+        JPanel right = new JPanel(new GridLayout(data.size()+1,1,0,20));
+        JPanel top = new JPanel(new GridLayout(1,5,10,10));
+        top.add(new JLabel("PROCESS"));
+        top.add(new JLabel("COLOR"));
+        top.add(new JLabel("NAME"));
+        top.add(new JLabel("PID"));
+        top.add(new JLabel("PRIORITY"));
+
+        right.add(top);
+        int pid = 3280 ;
+        for (int i = 0; i < data.size(); i++) {
+            JPanel p = new JPanel(new GridLayout(1,5,10,10));
+            p.add(new JLabel(i+""));
+            JLabel c = new JLabel();
+            c.setOpaque(true);
+            c.setBackground(data.get(i).color);
+            p.add(c);
+            p.add(new JLabel(data.get(i).Name));
+            p.add(new JLabel(pid++ +""));
+            p.add(new JLabel(data.get(i).Priority+""));
+
+            right.add(p);
+        }
+        f.add(right);
     }
 }
 class pane extends JPanel{
